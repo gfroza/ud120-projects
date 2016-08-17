@@ -17,6 +17,38 @@
 
 import pickle
 
-enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
+enron_data = pickle.load(open("C:/Users/geoffnoble/Source/Repos/ud120-projects/final_project/final_project_dataset.pkl", "r"))
 
+print len(enron_data)
+print len(enron_data.items()[0][1])
+
+counter = 0
+for key, value in enron_data.iteritems():
+    if enron_data[key]["poi"]==1:
+        counter += 1
+
+print counter
+
+number_of_poi = counter
+
+print enron_data["PRENTICE JAMES"]["total_stock_value"]
+print enron_data["COLWELL WESLEY"]["from_this_person_to_poi"]
+print enron_data["SKILLING JEFFREY K"]["exercised_stock_options"]
+
+
+counter = 0
+for key, value in enron_data.iteritems():
+    if enron_data[key]["total_payments"]=="NaN":
+        counter += 1
+
+print counter
+
+counter = 0
+
+for key, value in enron_data.iteritems():
+    if enron_data[key]["poi"]==1:
+        if enron_data[key]["total_payments"]=="NaN":
+            counter += 1
+
+print counter
 
