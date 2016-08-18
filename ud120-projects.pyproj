@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{63eea040-58bb-41be-9c22-98acf30753b2}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>outliers\enron_outliers.py</StartupFile>
+    <StartupFile>final_project\poi_id.py</StartupFile>
     <SearchPath>.;tools\</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
