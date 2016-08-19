@@ -139,6 +139,18 @@ from sklearn.cross_validation import train_test_split
 features_train, features_test, labels_train, labels_test = \
     train_test_split(features, labels, test_size=0.3, random_state=42)
 
+from sklearn.svm import SVC
+from sklearn import svm, grid_search, datasets
+
+#clf = SVC(kernel="linear", C=1.)
+#clf.fit(features_train, labels_train)
+
+#print clf.score(features_test, labels_test)
+
+parameters = {'kernel':('linear', 'rbf'), 'C':[1, 10]}
+svr = svm.SVC()
+clf = grid_search.GridSearchCV(svr, parameters)
+clf.fit(iris.data, iris.target)
 
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
