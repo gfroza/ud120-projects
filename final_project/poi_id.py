@@ -50,15 +50,25 @@ def dict_to_list(key,normalizer):
     return new_list
 
 ### create two lists of new features
-fraction_from_poi_email=dict_to_list("from_poi_to_this_person","to_messages")
-fraction_to_poi_email=dict_to_list("from_this_person_to_poi","from_messages")
+fraction_from_poi_email=dict_to_list('from_poi_to_this_person','to_messages')
+fraction_to_poi_email=dict_to_list('from_this_person_to_poi','from_messages')
 
 ### insert new features into data_dict
 count=0
 for i in data_dict:
-    data_dict[i]["fraction_from_poi_email"]=fraction_from_poi_email[count]
-    data_dict[i]["fraction_to_poi_email"]=fraction_to_poi_email[count]
+    data_dict[i]['fraction_from_poi_email']=fraction_from_poi_email[count]
+    data_dict[i]['fraction_to_poi_email']=fraction_to_poi_email[count]
     count +=1
+
+###Update Feature List
+features_list = ['poi','salary', 'deferral_payments', 
+                 'total_payments', 'loan_advances', 'bonus',
+                 'restricted_stock_deferred', 'deferred_income',
+                 'total_stock_value', 'expenses', 'exercised_stock_options',
+                 'other', 'long_term_incentive', 'restricted_stock', 
+                 'director_fees', 'to_messages', 'from_poi_to_this_person', 'from_messages', 
+                 'from_this_person_to_poi', 'shared_receipt_with_poi', 'fraction_from_poi_email', 'fraction_to_poi_email'] 
+
 
 
 ### Store to my_dataset for easy export below.
@@ -71,7 +81,7 @@ labels, features = targetFeatureSplit(data)
 
 #Select labels using SelectKBest after preprocessing and scaling
 scaler = preprocessing.StandardScaler()
-kbest = SelectKBest(f_classif, k=10)
+kbest = SelectKBest(f_classif, k=5)
 
 pipeline =  Pipeline(steps=[("kbest", kbest)])
 
@@ -91,24 +101,19 @@ for item in feature_list_to_show:
  	print item[0], item[1]
 
 ## Update features_list based on DecisionTreeClassifier importances
-features_list = ['poi','salary',  
-                 'total_payments', 'bonus',
-                 'restricted_stock_deferred', 'deferred_income',
-                 'total_stock_value', 'exercised_stock_options',
-                 'long_term_incentive', 'restricted_stock', 
-                 'loan_advances', 'expenses', 'from_poi_to_this_person']                 
+#Top 5
+features_list = ['poi','exercised_stock_options','total_stock_value',  
+                 'bonus','salary','fraction_to_poi_email']
+
+
+#Top 10 - chose 5 above
+#features_list = ['poi','exercised_stock_options','total_stock_value',  
+#                 'bonus','salary','fraction_to_poi_email',
+#                 'deferred_income','long_term_incentive', 'restricted_stock',
+#                 'total_payments', 'shared_receipt_with_poi']
+               
 
 ### Task 4: Try a varity of classifiers
-#GaussianNB
-from sklearn.naive_bayes import GaussianNB
-clf = GaussianNB()
-clf.fit(features_train,labels_train)
-score = clf.score(features_test,labels_test)
-print "GaussianNB : " + str(score)
-
-from tester import test_classifier
-test_classifier(clf, my_dataset, features_list)
-
 #AdaBoost
 from sklearn.ensemble import AdaBoostClassifier
 clf = AdaBoostClassifier(n_estimators=50, random_state=42)
@@ -124,8 +129,15 @@ print "AdaBoost : " + str(score)
 #score = clf.score(features_test,labels_test)
 #print "SVM : " + str(score)
 
+#GaussianNB
+#from sklearn.naive_bayes import GaussianNB
+#clf = GaussianNB()
+#clf.fit(features_train,labels_train)
+#score = clf.score(features_test,labels_test)
+#print "GaussianNB : " + str(score)
 
-
+from tester import test_classifier
+test_classifier(clf, my_dataset, features_list)
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script. Check the tester.py script in the final project
@@ -142,15 +154,11 @@ features_train, features_test, labels_train, labels_test = \
 from sklearn.svm import SVC
 from sklearn import svm, grid_search, datasets
 
-#clf = SVC(kernel="linear", C=1.)
-#clf.fit(features_train, labels_train)
-
-#print clf.score(features_test, labels_test)
-
+#Apply GrindSearchCV
 parameters = {'kernel':('linear', 'rbf'), 'C':[1, 10]}
 svr = svm.SVC()
 clf = grid_search.GridSearchCV(svr, parameters)
-clf.fit(iris.data, iris.target)
+clf.fit(features_test, labels_test)
 
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
