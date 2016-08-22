@@ -115,11 +115,11 @@ features_list = ['poi','exercised_stock_options','total_stock_value',
 
 ### Task 4: Try a varity of classifiers
 #AdaBoost
-from sklearn.ensemble import AdaBoostClassifier
-clf = AdaBoostClassifier(n_estimators=50, random_state=42)
-clf.fit(features_train,labels_train)
-score = clf.score(features_test,labels_test)
-print "AdaBoost : " + str(score)
+#from sklearn.ensemble import AdaBoostClassifier
+#clf = AdaBoostClassifier(n_estimators=50, random_state=42)
+#clf.fit(features_train,labels_train)
+#score = clf.score(features_test,labels_test)
+#print "AdaBoost : " + str(score)
 
 
 ### SVM, commented out as slow
@@ -130,11 +130,11 @@ print "AdaBoost : " + str(score)
 #print "SVM : " + str(score)
 
 #GaussianNB
-#from sklearn.naive_bayes import GaussianNB
-#clf = GaussianNB()
-#clf.fit(features_train,labels_train)
-#score = clf.score(features_test,labels_test)
-#print "GaussianNB : " + str(score)
+from sklearn.naive_bayes import GaussianNB
+clf = GaussianNB()
+clf.fit(features_train,labels_train)
+score = clf.score(features_test,labels_test)
+print "GaussianNB : " + str(score)
 
 from tester import test_classifier
 test_classifier(clf, my_dataset, features_list)
@@ -155,11 +155,10 @@ from sklearn.svm import SVC
 from sklearn import svm, grid_search, datasets
 
 #Apply GrindSearchCV
-parameters = {'kernel':('linear', 'rbf'), 'C':[1, 10]}
-svr = svm.SVC()
-clf = grid_search.GridSearchCV(svr, parameters)
-clf.fit(features_test, labels_test)
-
+#parameters = {'kernel':('linear', 'rbf'), 'C':[1, 10]}
+#svr = svm.SVC()
+#clf = grid_search.GridSearchCV(svr, parameters)
+#clf.fit(features_test, labels_test)
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
 ### check your results. You do not need to change anything below, but make sure
