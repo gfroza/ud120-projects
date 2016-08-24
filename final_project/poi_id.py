@@ -136,8 +136,7 @@ clf.fit(features_train,labels_train)
 score = clf.score(features_test,labels_test)
 print "GaussianNB : " + str(score)
 
-from tester import test_classifier
-test_classifier(clf, my_dataset, features_list)
+
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script. Check the tester.py script in the final project
@@ -147,12 +146,15 @@ test_classifier(clf, my_dataset, features_list)
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 
 # Example starting point. Try investigating other evaluation techniques!
-from sklearn.cross_validation import train_test_split
-features_train, features_test, labels_train, labels_test = \
-    train_test_split(features, labels, test_size=0.3, random_state=42)
+#from sklearn.cross_validation import train_test_split
+#features_train, features_test, labels_train, labels_test = \
+    #train_test_split(features, labels, test_size=0.3, random_state=42)
 
-from sklearn.svm import SVC
-from sklearn import svm, grid_search, datasets
+from tester import test_classifier
+test_classifier(clf, my_dataset, features_list, folds=1000)
+
+#from sklearn.svm import SVC
+#from sklearn import svm, grid_search, datasets
 
 #Apply GrindSearchCV
 #parameters = {'kernel':('linear', 'rbf'), 'C':[1, 10]}
